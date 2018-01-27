@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.volodymyrbaisa.quizapp.R;
 import com.volodymyrbaisa.quizapp.launcher.LauncherContract;
@@ -82,6 +83,10 @@ public class ScoreFragment extends Fragment implements ScoreContract.View{
     @Override
     public void showTotalScore(String score){
         totalScore.setText(score);
+
+        Toast.makeText(getContext(),
+                getString(R.string.total_score) + " " + totalQuizPoints,
+                Toast.LENGTH_SHORT).show();
     }
 
     public void launchActivity() {
