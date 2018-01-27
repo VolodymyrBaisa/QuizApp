@@ -5,4 +5,5 @@
     <dimen name="quiz_timer_progress">10dp</dimen>
     <dimen name="quiz_points_progress">55dp</dimen>
     <dimen name="quiz_timer_analog">40dp</dimen>
+    <dimen name="score_button_restart_quiz_margin_top">60dp</dimen>
 </resources>

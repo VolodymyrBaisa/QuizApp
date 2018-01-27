@@ -6,4 +6,6 @@
     <string name="questions_0">0/0</string>
     <string name="points_0">0</string>
     <string name="timer_00">00</string>
+    <string name="start_again">Start again</string>
+    <string name="total_score">Total score</string>
 </resources>

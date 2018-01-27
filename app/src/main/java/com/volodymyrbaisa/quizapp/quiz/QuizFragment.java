@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.volodymyrbaisa.quizapp.R;
 import com.volodymyrbaisa.quizapp.custom.QuizRadioGroup;
+import com.volodymyrbaisa.quizapp.score.ScoreActivity;
+import com.volodymyrbaisa.quizapp.utils.ActivityUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,36 +30,18 @@ import static com.volodymyrbaisa.quizapp.utils.PreconditionsUtils.checkNotNull;
 
 public class QuizFragment extends Fragment implements QuizContract.View {
     public static final String QUIZ_FILE = "quiz.json";
+    public static final String QUIZ_POINTS_KEY = "quiz_points";
 
-    @BindView(R.id.quiz_timer_progress)
-    ProgressBar timerProgress;
-
-    @BindView(R.id.quiz_timer_analog)
-    TextView timerAnalog;
-
-    @BindView(R.id.quiz_questions_progress)
-    TextView questionsProgress;
-
-    @BindView(R.id.quiz_points_progress)
-    TextView pointsProgress;
-
-    @BindView(R.id.quiz_question_description)
-    TextView questionDescription;
-
-    @BindView(R.id.quiz_radio_group)
-    QuizRadioGroup radioGroup;
-
-    @BindView(R.id.quiz_answer_1)
-    RadioButton rButtonAnswer1;
-
-    @BindView(R.id.quiz_answer_2)
-    RadioButton rButtonAnswer2;
-
-    @BindView(R.id.quiz_answer_3)
-    RadioButton rButtonAnswer3;
-
-    @BindView(R.id.quiz_answer_4)
-    RadioButton rButtonAnswer4;
+    @BindView(R.id.quiz_timer_progress) ProgressBar timerProgress;
+    @BindView(R.id.quiz_timer_analog) TextView timerAnalog;
+    @BindView(R.id.quiz_questions_progress) TextView questionsProgress;
+    @BindView(R.id.quiz_points_progress) TextView pointsProgress;
+    @BindView(R.id.quiz_question_description) TextView questionDescription;
+    @BindView(R.id.quiz_radio_group) QuizRadioGroup radioGroup;
+    @BindView(R.id.quiz_answer_1) RadioButton rButtonAnswer1;
+    @BindView(R.id.quiz_answer_2) RadioButton rButtonAnswer2;
+    @BindView(R.id.quiz_answer_3) RadioButton rButtonAnswer3;
+    @BindView(R.id.quiz_answer_4) RadioButton rButtonAnswer4;
 
     private QuizContract.Presenter presenter;
 
@@ -86,8 +70,8 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if(savedInstanceState == null) {
             presenter.subscribe();
         } else {
@@ -187,5 +171,9 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         }
     }
 
-
+    public void launchScoreActivity(int points){
+        Bundle bundle = new Bundle();
+        bundle.putInt(QUIZ_POINTS_KEY, points);
+        ActivityUtils.launchActivity(getContext(), ScoreActivity.class, bundle);
+    }
 }

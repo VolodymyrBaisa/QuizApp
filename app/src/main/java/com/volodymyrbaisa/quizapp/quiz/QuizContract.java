@@ -26,6 +26,7 @@ public interface QuizContract {
         void resetQuizButtons();
         void showQuizButtonsIsEnabled(boolean enabled);
         void showRightAnswer();
+        void launchScoreActivity(int points);
     }
 
     interface Presenter extends BasePresenter {

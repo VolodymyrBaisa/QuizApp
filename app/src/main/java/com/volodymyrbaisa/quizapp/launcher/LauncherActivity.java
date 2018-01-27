@@ -15,8 +15,7 @@ import butterknife.ButterKnife;
  */
 
 public class LauncherActivity extends AppCompatActivity {
-    @BindView(R.id.launcher_root_view)
-    LauncherView launcherRootView;
+    @BindView(R.id.launcher_root_view) LauncherView launcherRootView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +23,10 @@ public class LauncherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launcher);
         ButterKnife.bind(this);
 
+        init();
+    }
+
+    private void init() {
         LauncherContract.View launchView = launcherRootView;
         PreconditionsUtils.checkNotNull(launchView);
         new LauncherPresenter(launchView);

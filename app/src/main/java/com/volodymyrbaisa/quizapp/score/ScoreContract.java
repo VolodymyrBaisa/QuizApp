@@ -9,8 +9,12 @@ import com.volodymyrbaisa.quizapp.base.BaseView;
 
 public interface ScoreContract {
     interface View extends BaseView<ScoreContract.Presenter> {
+        void launchActivity();
+        void showTotalScore(String score);
     }
 
     interface Presenter extends BasePresenter {
+        void restartQuiz();
+        void showTotalScoreWithAnimation(int score);
     }
 }
