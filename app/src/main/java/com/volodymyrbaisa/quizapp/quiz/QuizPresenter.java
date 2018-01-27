@@ -33,12 +33,12 @@ public class QuizPresenter implements QuizContract.Presenter {
 
     public QuizPresenter(QuizContract.View quizView) {
         this.quizView = quizView;
-        compositeDisposable = new CompositeDisposable();
         quizView.setPresenter(this);
     }
 
     @Override
     public void subscribe() {
+        compositeDisposable = new CompositeDisposable();
         readQuizFile();
         setTotalQuestions();
         timer();

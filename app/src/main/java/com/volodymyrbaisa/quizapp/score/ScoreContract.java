@@ -11,6 +11,7 @@ public interface ScoreContract {
     interface View extends BaseView<ScoreContract.Presenter> {
         void launchActivity();
         void showTotalScore(String score);
+        void showTotalScoreToast(int score);
     }
 
     interface Presenter extends BasePresenter {

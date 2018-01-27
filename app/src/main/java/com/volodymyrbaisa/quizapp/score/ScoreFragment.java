@@ -54,6 +54,7 @@ public class ScoreFragment extends Fragment implements ScoreContract.View{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.score_fragment, container, false);
         ButterKnife.bind(this, root);
+        presenter.subscribe();
         return root;
     }
 
@@ -63,10 +64,11 @@ public class ScoreFragment extends Fragment implements ScoreContract.View{
         Bundle bundle = getArguments();
         if(savedInstanceState == null) {
             totalQuizPoints = checkNotNull(bundle).getInt(TOTAL_QUIZ_POINTS_KEY, 0);
+            presenter.showTotalScoreWithAnimation(totalQuizPoints);
         } else {
             totalQuizPoints = savedInstanceState.getInt(TOTAL_QUIZ_POINTS_KEY);
+            showTotalScore(String.valueOf(totalQuizPoints));
         }
-        presenter.showTotalScoreWithAnimation(totalQuizPoints);
     }
 
     @Override
@@ -83,13 +85,22 @@ public class ScoreFragment extends Fragment implements ScoreContract.View{
     @Override
     public void showTotalScore(String score){
         totalScore.setText(score);
+    }
 
+    @Override
+    public void showTotalScoreToast(int score){
         Toast.makeText(getContext(),
-                getString(R.string.total_score) + " " + totalQuizPoints,
+                getString(R.string.total_score) + " " + score,
                 Toast.LENGTH_SHORT).show();
     }
 
     public void launchActivity() {
         ActivityUtils.launchActivity(getContext(), QuizActivity.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.unsubscribe();
     }
 }
