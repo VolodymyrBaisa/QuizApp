@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_margin_top">60dp</dimen>
+    <dimen name="quiz_questions_quantity">70dp</dimen>
+    <dimen name="quiz_timer_progress">30dp</dimen>
+    <dimen name="quiz_points_progress">70dp</dimen>
+    <dimen name="quiz_timer_analog">60dp</dimen>
+</resources>

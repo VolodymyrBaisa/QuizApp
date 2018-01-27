@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Quiz App</string>
+    <string name="start">Start</string>
+    <string name="questions">Questions</string>
+    <string name="points">Points</string>
+    <string name="questions_0">0/0</string>
+    <string name="points_0">0</string>
+    <string name="timer_00">00</string>
+</resources>

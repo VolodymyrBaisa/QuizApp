@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/quiz_background">
+
+    <TextView
+        android:id="@+id/quiz_questions_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="@dimen/quiz_questions_quantity"
+        android:text="@string/questions_0"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quiz_questions_progress"
+        android:text="@string/questions"
+        android:layout_marginStart="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/quiz_timer_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/quiz_timer_progress"
+        android:progressDrawable="@drawable/circular_progress_bar" />
+
+    <TextView
+        android:id="@+id/quiz_timer_analog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/quiz_timer_analog"
+        android:text="@string/timer_00"
+        android:textColor="@android:color/white"
+        android:layout_alignBaseline="@id/quiz_timer_progress"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/quiz_points_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/quiz_points_progress"
+        android:layout_marginEnd="45dp"
+        android:text="@string/points_0"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quiz_points_progress"
+        android:text="@string/points"
+        android:layout_marginEnd="25dp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentEnd="true"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <include layout="@layout/quz_fragment_question_field"/>
+</RelativeLayout>
