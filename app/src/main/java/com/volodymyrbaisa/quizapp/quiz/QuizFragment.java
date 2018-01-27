@@ -156,7 +156,9 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     public void onClickAnswer(View view){
         presenter.enabledQuizButtons(false);
         showRightAnswer();
-        presenter.increasePointsIfRightAnswer(((RadioButton)view).getText().toString());
+
+        String answer = ((RadioButton)view).getText().toString();
+        presenter.increasePointsIfRightAnswer(answer);
     }
 
     @Override

@@ -47,6 +47,11 @@ public class QuizPresenter implements QuizContract.Presenter {
     }
 
     @Override
+    public void unsubscribe() {
+        checkNotNull(compositeDisposable).dispose();
+    }
+
+    @Override
     public void refillQuestionForm() {
         timer();
         showQuestionsProgress();
@@ -56,11 +61,11 @@ public class QuizPresenter implements QuizContract.Presenter {
         if (!enabledQuiz) quizView.showRightAnswer();
     }
 
+
     private void timer() {
         quizView.configureProgressTimer(TIMER, TIMER);
         quizView.setTimerAnalog(TIMER);
     }
-
 
     private void startQuiz() {
         Disposable timerDisposable = Observable.interval(1, 1, TimeUnit.SECONDS, Schedulers.io())
@@ -115,11 +120,6 @@ public class QuizPresenter implements QuizContract.Presenter {
 
     public void increasePointsIfRightAnswer(String ans) {
         if (checkRightAnswer(ans)) points++;
-    }
-
-    @Override
-    public void unsubscribe() {
-        checkNotNull(compositeDisposable).dispose();
     }
 
     private void readQuizFile() {
