@@ -2,8 +2,8 @@ package com.volodymyrbaisa.quizapp.quiz;
 
 import com.google.gson.Gson;
 import com.volodymyrbaisa.quizapp.model.QuizItems;
+import com.volodymyrbaisa.quizapp.utils.ActivityUtils;
 import com.volodymyrbaisa.quizapp.utils.IOUtils;
-import com.volodymyrbaisa.quizapp.utils.PreconditionsUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +28,9 @@ public class QuizPresenter implements QuizContract.Presenter {
     private QuizItems[] quizItems;
     private int currentQuestion;
     private int totalQuestions;
+    private int displayPoints;
     private int points;
+    private boolean enabledQuiz;
 
     public QuizPresenter(QuizContract.View quizView) {
         this.mainView = quizView;
@@ -45,6 +47,16 @@ public class QuizPresenter implements QuizContract.Presenter {
 
     }
 
+    @Override
+    public void refillQuestionForm(){
+        timer();
+        showQuestionsProgress();
+        showPoints();
+        fillQuestionForm();
+        enabledQuizButtons(enabledQuiz);
+        if(!enabledQuiz) mainView.showRightAnswer();
+    }
+
     private void timer() {
         mainView.configureProgressTimer(TIMER, TIMER);
         mainView.setTimerAnalog(TIMER);
@@ -57,31 +69,25 @@ public class QuizPresenter implements QuizContract.Presenter {
                 .take(TIMER + 1)
                 .map(v -> TIMER - v)
                 .subscribe(
-                        onNext -> setTimer(onNext),
+                        onNext -> showTimer(onNext),
                         onError -> {},
                         () -> {
-                            mainView.setPoints(points);
+                            setPoints();
+                            showPoints();
                             startNextQuizIfHas();
                         },
                         onSubscribe -> {
-                            mainView.setQuestionsProgress(currentQuestion + 1, totalQuestions);
-                            fillQuestionForm(currentQuestion);
+                            showQuestionsProgress();
+                            fillQuestionForm();
+                            mainView.resetQuizButtons();
+                            enabledQuizButtons(true);
                         });
 
         compositeDisposable.add(timerDisposable);
     }
 
-    private void setTimer(Long onNext) {
-        mainView.setProgressTimer(onNext.intValue());
-        mainView.setTimerAnalog(onNext.intValue());
-    }
-
-    private void startNextQuizIfHas(){
-        if (currentQuestion + 1 < totalQuestions){
-            nextQuiz();
-        } else {
-            mainView.enabledQuizButtons(false);
-        }
+    private void setPoints() {
+        displayPoints = points;
     }
 
     private void nextQuiz() {
@@ -92,8 +98,6 @@ public class QuizPresenter implements QuizContract.Presenter {
                         onError -> {},
                         () -> {
                             currentQuestion++;
-                            mainView.resetQuizButtons();
-                            mainView.enabledQuizButtons(true);
                             startQuiz();
                         },
                         onSubscribe -> {});
@@ -106,16 +110,8 @@ public class QuizPresenter implements QuizContract.Presenter {
        return quizItems[currentQuestion].getAnswer().equals(ans);
     }
 
-    public void increasePoints(String ans){
+    public void increasePointsIfRightAnswer(String ans){
         if (checkRightAnswer(ans)) points++;
-    }
-
-    private void fillQuestionForm(int index) {
-        mainView.setDescription(quizItems[index].getDescription());
-        mainView.setVersion1(quizItems[index].getVersion1());
-        mainView.setVersion2(quizItems[index].getVersion2());
-        mainView.setVersion3(quizItems[index].getVersion3());
-        mainView.setVersion4(quizItems[index].getVersion4());
     }
 
     @Override
@@ -131,7 +127,42 @@ public class QuizPresenter implements QuizContract.Presenter {
         }
     }
 
+    private void startNextQuizIfHas(){
+        if (currentQuestion + 1 < totalQuestions){
+            nextQuiz();
+        } else {
+            enabledQuizButtons(false);
+        }
+    }
+
+    @Override
+    public void enabledQuizButtons(boolean enabled) {
+        enabledQuiz = enabled;
+        mainView.showQuizButtonsIsEnabled(enabled);
+    }
+
     private void setTotalQuestions() {
         totalQuestions = quizItems.length;
+    }
+
+    private void showQuestionsProgress() {
+        mainView.setQuestionsProgress(currentQuestion + 1, totalQuestions);
+    }
+
+    private void showPoints() {
+        mainView.setPoints(displayPoints);
+    }
+
+    private void showTimer(Long onNext) {
+        mainView.setProgressTimer(onNext.intValue());
+        mainView.setTimerAnalog(onNext.intValue());
+    }
+
+    private void fillQuestionForm() {
+        mainView.setDescription(quizItems[currentQuestion].getDescription());
+        mainView.setVersion1(quizItems[currentQuestion].getVersion1());
+        mainView.setVersion2(quizItems[currentQuestion].getVersion2());
+        mainView.setVersion3(quizItems[currentQuestion].getVersion3());
+        mainView.setVersion4(quizItems[currentQuestion].getVersion4());
     }
 }

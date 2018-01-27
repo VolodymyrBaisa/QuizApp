@@ -24,11 +24,14 @@ public interface QuizContract {
         void setVersion3(String v3);
         void setVersion4(String v4);
         void resetQuizButtons();
-        void enabledQuizButtons(boolean enabled);
+        void showQuizButtonsIsEnabled(boolean enabled);
+        void showRightAnswer();
     }
 
     interface Presenter extends BasePresenter {
         boolean checkRightAnswer(String ans);
-        void increasePoints(String ans);
+        void increasePointsIfRightAnswer(String ans);
+        void refillQuestionForm();
+        void enabledQuizButtons(boolean enabled);
     }
 }

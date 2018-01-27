@@ -19,8 +19,8 @@ public class QuizActivity extends AppCompatActivity {
             quizFragment = QuizFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     quizFragment, R.id.quizContentFrame);
-        }
 
-        new QuizPresenter(quizFragment);
+            new QuizPresenter(quizFragment);
+        }
     }
 }

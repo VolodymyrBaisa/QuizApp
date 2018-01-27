@@ -1,16 +1,13 @@
 package com.volodymyrbaisa.quizapp.quiz;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.volodymyrbaisa.quizapp.R;
@@ -91,7 +88,11 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.subscribe();
+        if(savedInstanceState == null) {
+            presenter.subscribe();
+        } else {
+            presenter.refillQuestionForm();
+        }
     }
 
     @Override
@@ -163,18 +164,19 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     }
 
     @Override
-    public void enabledQuizButtons(boolean enabled){
+    public void showQuizButtonsIsEnabled(boolean enabled){
         radioGroup.setQuizButtonsEnabled(enabled);
     }
 
     @OnClick({R.id.quiz_answer_1, R.id.quiz_answer_2, R.id.quiz_answer_3, R.id.quiz_answer_4})
     public void onClickAnswer(View view){
-        radioGroup.setQuizButtonsEnabled(false);
+        presenter.enabledQuizButtons(false);
         showRightAnswer();
-        presenter.increasePoints(((RadioButton)view).getText().toString());
+        presenter.increasePointsIfRightAnswer(((RadioButton)view).getText().toString());
     }
 
-    private void showRightAnswer() {
+    @Override
+    public void showRightAnswer() {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             RadioButton answerButton = (RadioButton) radioGroup.getChildAt(i);
             if (presenter.checkRightAnswer(answerButton.getText().toString())) {
@@ -184,4 +186,6 @@ public class QuizFragment extends Fragment implements QuizContract.View {
             }
         }
     }
+
+
 }
